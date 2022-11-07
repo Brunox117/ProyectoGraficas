@@ -3,6 +3,7 @@ import * as THREE from './libs/three.module.js'
 import { OrbitControls } from './libs/controls/OrbitControls.js';
 import { OBJLoader } from './libs/loaders/OBJLoader.js';
 import { GUI } from './libs/dat.gui.module.js';
+import { MTLLoader } from './libs/loaders/MTLLoader.js';
 
 let renderer = null, scene = null, camera = null, orbitControls = null, tankGroup = null, turretGroup = null;
 
@@ -31,6 +32,43 @@ async function loadObj(objModelUrl, group,scale) {
         scene.add(group);
     }
     catch (err) {
+        onError(err);
+    }
+}
+async function loadObjMtl(objModelUrl, group, scale)
+{
+    try
+    {
+        const mtlLoader = new MTLLoader();
+
+        const materials = await mtlLoader.loadAsync(objModelUrl.mtl, onProgress, onError);
+
+        materials.preload();
+        
+        const objLoader = new OBJLoader();
+
+        objLoader.setMaterials(materials);
+
+        const object = await objLoader.loadAsync(objModelUrl.obj, onProgress, onError);
+    
+        object.traverse(function (child) {
+            if (child.isMesh)
+            {
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+        });
+        
+        console.log(object);
+
+        group.position.y += 1;
+        group.scale.set(scale, scale, scale);
+
+        group.add(object);
+        scene.add(group);
+    }
+    catch (err)
+    {
         onError(err);
     }
 }
