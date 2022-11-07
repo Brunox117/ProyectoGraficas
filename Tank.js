@@ -6,13 +6,14 @@ import { GUI } from './libs/dat.gui.module.js';
 import { MTLLoader } from './libs/loaders/MTLLoader.js';
 
 let renderer = null, scene = null, camera = null, orbitControls = null, tankGroup = null, turretGroup = null;
-
+let treeGroup = null;
 let ambientLight = null;
 
 let mapUrl = "./checker_large.gif";
 
 const tankModel = { obj: './Resources/Tank.obj', texture: './Resources/Tank_texture.jpg' };
 const turretModel = { obj: './Resources/Turret.obj', texture: './Resources/Tank_texture.jpg' };
+const treeModel = { obj: './Resources/Lowpoly_tree_sample.obj', mtl: './Resources/Lowpoly_tree_sample.mtl' };
 
 async function loadObj(objModelUrl, group,scale) {
     try {
@@ -141,6 +142,7 @@ async function createScene(canvas) {
     mesh.receiveShadow = true;
     tankGroup = new THREE.Object3D();
     turretGroup = new THREE.Object3D();
+    treeGroup = new THREE.Object3D();
     tankGroup.position.x = 1;
     tankGroup.position.z = 1;
     tankGroup.rotation.y = 1.9;
@@ -149,6 +151,7 @@ async function createScene(canvas) {
     turretGroup.position.z = 1;
     loadObj(tankModel, tankGroup, 4);
     loadObj(turretModel, turretGroup, 4);
+    loadObjMtl(treeModel, treeGroup, 0.1);
     scene.add(mesh);
 
     
