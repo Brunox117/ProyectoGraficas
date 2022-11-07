@@ -13,7 +13,7 @@ let mapUrl = "./checker_large.gif";
 
 const tankModel = { obj: './Resources/Tank.obj', texture: './Resources/Tank_texture.jpg' };
 const turretModel = { obj: './Resources/Turret.obj', texture: './Resources/Tank_texture.jpg' };
-const treeModel = { obj: './Resources/Lowpoly_tree_sample.obj', mtl: './Resources/Lowpoly_tree_sample.mtl' };
+const treeModel = { obj: './Resources/treeSample.obj', mtl: './Resources/treeSample.mtl' };
 
 async function loadObj(objModelUrl, group,scale) {
     try {
