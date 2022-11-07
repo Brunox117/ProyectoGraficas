@@ -113,9 +113,7 @@ async function createScene(canvas) {
     loadObj(turretModel, turretGroup, 4);
     scene.add(mesh);
 
-    const gui = new GUI();
-    gui.add(tankGroup.rotation, 'y', -Math.PI, Math.PI, 0.1).name("Tank Rotation");
-    gui.add(turretGroup.rotation, 'y', -Math.PI, Math.PI, 0.1).name("Turret Rotation");
+    
 }
 
 main();
