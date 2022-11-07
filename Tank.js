@@ -14,8 +14,8 @@ let mapUrl = "./checker_large.gif";
 const tankModel = { obj: './Resources/Tank.obj', texture: './Resources/Tank_texture.jpg' };
 const turretModel = { obj: './Resources/Turret.obj', texture: './Resources/Tank_texture.jpg' };
 const treeModel = { obj: './Resources/treeSample.obj', mtl: './Resources/treeSample.mtl' };
-
-async function loadObj(objModelUrl, group,scale) {
+const rocaModel = { obj: './Resources/roca1.obj', mtl: './Resources/roca1.mtl' };
+async function loadObj(objModelUrl, group,scale,color,x,y,z) {
     try {
         const objLoader = new OBJLoader();
         const object = await objLoader.loadAsync(objModelUrl.obj, onProgress, onError);
@@ -25,18 +25,21 @@ async function loadObj(objModelUrl, group,scale) {
                 child.castShadow = true;
                 child.receiveShadow = false;
                 child.material.map = new THREE.TextureLoader().load(objModelUrl.texture);
-                child.material.color.setHex(0x629163);
+                child.material.color.setHex(color);
             }
         });
         object.scale.set(scale,scale,scale);
         group.add(object);
+        object.position.x = x;
+        object.position.y = y;
+        object.position.z = z;
         scene.add(group);
     }
     catch (err) {
         onError(err);
     }
 }
-async function loadObjMtl(objModelUrl, group, scale)
+async function loadObjMtl(objModelUrl, group, scale,x,y,z) 
 {
     try
     {
@@ -61,7 +64,9 @@ async function loadObjMtl(objModelUrl, group, scale)
         });
         
         console.log(object);
-
+        object.position.x = x;
+        object.position.y = y;
+        object.position.z = z;
         group.position.y += 1;
         group.scale.set(scale, scale, scale);
 
@@ -143,15 +148,11 @@ async function createScene(canvas) {
     tankGroup = new THREE.Object3D();
     turretGroup = new THREE.Object3D();
     treeGroup = new THREE.Object3D();
-    tankGroup.position.x = 1;
-    tankGroup.position.z = 1;
-    tankGroup.rotation.y = 1.9;
-    turretGroup.position.x = 1;
-    turretGroup.position.y = 1.5;
-    turretGroup.position.z = 1;
-    loadObj(tankModel, tankGroup, 4);
-    loadObj(turretModel, turretGroup, 4);
-    loadObjMtl(treeModel, treeGroup, 0.1);
+
+    loadObj(tankModel, tankGroup, 4,0x629163,1,1,1);
+    loadObj(turretModel, turretGroup, 4, 0x629163,1,2.5,1);
+    loadObjMtl(treeModel, treeGroup, 0.2, -10, -1, 0);
+    loadObjMtl(rocaModel, treeGroup, 0.2, -10, -1, 0);
     scene.add(mesh);
 
     
