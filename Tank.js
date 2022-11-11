@@ -10,11 +10,30 @@ let treeGroup = null;
 let ambientLight = null;
 
 let mapUrl = "./checker_large.gif";
+let paredGroup = null;
+const materials = {};
+const ladrilloURL = "./Resources/ladrilloTexture.jpg";
+
 
 const tankModel = { obj: './Resources/Tank.obj', texture: './Resources/Tank_texture.jpg' };
 const turretModel = { obj: './Resources/Turret.obj', texture: './Resources/Tank_texture.jpg' };
 const treeModel = { obj: './Resources/treeSample.obj', mtl: './Resources/treeSample.mtl' };
 const rocaModel = { obj: './Resources/roca1.obj', mtl: './Resources/roca1.mtl' };
+const torreta = { obj: './Resources/torreta.obj', mtl: './Resources/torreta.mtl' };
+const tanque = { obj: './Resources/tanque.obj', mtl: './Resources/tanque.mtl'};
+//const arbolModel = { obj: './Resources/arbol2.obj', mtl: './Resources/arbol2.mtl' }; 
+//const tanque2Model = {obj: './Resources/tanque2.obj', mtl: './Resources/tanque2.mtl'}
+const arbol3Model = { obj: './Resources/arbol3.obj', mtl: './Resources/arbol3.mtl' }; 
+const arbol4Model = { obj: './Resources/arbol4.obj', mtl: './Resources/arbol4.mtl' };
+const balaModel = { obj: './Resources/bala.obj', mtl: './Resources/bala.mtl' };
+const bala2Model = { obj: './Resources/bala2.obj', mtl: './Resources/bala2.mtl' };
+const roca2Model = { obj: './Resources/roca2.obj', mtl: './Resources/roca2.mtl' };
+
+//pasto y decoración
+const pasto1Model = { obj: './Resources/pasto1.obj', mtl: './Resources/pasto1.mtl' };
+const pasto2Model = { obj: './Resources/pasto2.obj', mtl: './Resources/pasto2.mtl' };
+const hongoModel = { obj: './Resources/hongo.obj', mtl: './Resources/hongo.mtl' };
+
 async function loadObj(objModelUrl, group,scale,color,x,y,z) {
     try {
         const objLoader = new OBJLoader();
@@ -68,7 +87,7 @@ async function loadObjMtl(objModelUrl, group, scale,x,y,z)
         object.position.y = y;
         object.position.z = z;
         group.position.y += 1;
-        group.scale.set(scale, scale, scale);
+        object.scale.set(scale, scale, scale);
 
         group.add(object);
         scene.add(group);
@@ -87,6 +106,15 @@ function onProgress(xhr) {
         console.log(xhr.target.responseURL, Math.round(percentComplete, 2) + '% downloaded');
     }
 }
+
+function createMaterials(mapUrl) {
+    // Create a textre phong material for the cube
+    // First, create the texture map
+    const textureMap = new THREE.TextureLoader().load(mapUrl);
+    materials["phong"] = new THREE.MeshPhongMaterial();
+    materials["phong-textured"] = new THREE.MeshPhongMaterial({ map: textureMap });
+}
+
 
 function main() {
     const canvas = document.getElementById("webglcanvas");
@@ -149,10 +177,24 @@ async function createScene(canvas) {
     turretGroup = new THREE.Object3D();
     treeGroup = new THREE.Object3D();
 
+    
+
     loadObj(tankModel, tankGroup, 4,0x629163,1,1,1);
     loadObj(turretModel, turretGroup, 4, 0x629163,1,2.5,1);
+    loadObjMtl(arbol3Model, treeGroup, 0.5, 0, -1, 0);
+    loadObjMtl(rocaModel, treeGroup, 0.7, -7, -1, 0);
+    loadObjMtl(roca2Model, treeGroup, 1, 7, -1, 0);
     loadObjMtl(treeModel, treeGroup, 0.2, -10, -1, 0);
-    loadObjMtl(rocaModel, treeGroup, 0.2, -10, -1, 0);
+    loadObjMtl(torreta, treeGroup, 0.5, -17, -1, 0);
+    loadObjMtl(tanque, treeGroup, 0.5, -17, -1, 0);
+    loadObjMtl(balaModel, treeGroup, 0.5, -20, -1, 0);
+    loadObjMtl(bala2Model, treeGroup, 0.5, -25, -1, 0);
+    loadObjMtl(arbol4Model, treeGroup, 0.5, -30, -1, 0);
+    loadObjMtl(pasto1Model, treeGroup, 1, -30, -5, 0);
+    loadObjMtl(pasto2Model, treeGroup, 1, -25, -5, 0);
+    loadObjMtl(hongoModel, treeGroup, 1, -20, -5, 0);
+
+
     scene.add(mesh);
 
     
